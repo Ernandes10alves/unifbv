@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/AbstractRun.php";
 require_once __DIR__ . "/MovieCard.php";
+require_once __DIR__ . "/ModelMovies.php";
 
 class MoviesList extends AbstractRun
 {
@@ -10,14 +11,19 @@ class MoviesList extends AbstractRun
 ?>
         <style>
             .listCards {
-                columns: 200px;
-                padding: 10px;
+                padding: 20px;
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+                flex-wrap: wrap;
             }
         </style>
         <div class="listCards">
             <?php
-            for ($i = 0; $i < 20; $i++) {
-                $movie = new MovieCard("/imgs/acabana.jpg", "A Cabana", 3);
+            $dbMovies = new ModelMovies();
+            $list = $dbMovies->list();
+            foreach ($list as $movie) {
+                $movie = new MovieCard($movie['image'], $movie['filme'], $movie['point']);
                 $movie->run();
             }
             ?>

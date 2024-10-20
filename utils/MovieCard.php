@@ -4,6 +4,8 @@ require_once __DIR__ . "/AbstractRun.php";
 
 class MovieCard extends AbstractRun
 {
+    private static $cssOk = false;
+
     private string $image;
     private string $title;
     private int $starPoints;
@@ -15,25 +17,38 @@ class MovieCard extends AbstractRun
         $this->starPoints = $starPoints;
     }
 
+    private function css()
+    {
+        if (!self::$cssOk) {
+?>
+            <style>
+                .cardMovie {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    text-align: center;
+                    flex: 1;
+                    max-width: 300px;
+                    min-width: 200px;
+                }
+
+                .cardMovie .img {
+                    height: 200px;
+                    background-size: cover;
+                    background-position: center;
+                }
+            </style>
+        <?php
+            self::$cssOk = true;
+        }
+    }
+
     public function run()
     {
-?>
-        <style>
-            .cardMovie {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-
-            .cardMovie img {
-                max-width: 200px;
-                max-height: 200px;
-            }
-        </style>
+        $this->css();
+        ?>
         <div class="cardMovie">
-            <div>
-                <img alt="<?php echo $this->title; ?>" src="<?php echo $this->image; ?>" />
+            <div class="img" style="background-image:url(<?php echo $this->image; ?>)">
             </div>
             <div>
                 <?php echo $this->title; ?>
